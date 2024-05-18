@@ -63,8 +63,11 @@ class App extends Component {
                             pauseOnFocusLoss={true}
                             closeOnClick={false}
                             draggable={false}
-                            closeButton={<CustomToastCloseButton />}
+                            closeButton={<CustomToastCloseButton />
+                        }
                         />
+
+
                     </div>
                 </Router>
             </Fragment>
