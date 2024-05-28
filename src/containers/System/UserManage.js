@@ -56,11 +56,9 @@ createNewUser = async(data) =>{
     })
     emitter.emit('EVENT_CLEAR_MODAL_DATA',{'id':'your id'})
    }
-   console.log('reponse crate user: ',response)
    } catch (e) {
     console.log(e)
    } 
-    console.log("check data from child: ", data)
 }
 
     async componentDidMount() {
@@ -68,7 +66,6 @@ createNewUser = async(data) =>{
 
     }
     handleDeleteUser = async(user) =>{
-        console.log('delete click',user)
         try {
        let res = await deleteUserSerivce(user.id)
        if(res && res.errCode === 0){
@@ -81,7 +78,6 @@ createNewUser = async(data) =>{
         }
     }
     handleEditUser = (user) =>{
-        console.log('chec edit user ', user);
         this.setState({
             isOpenModalEditUser: true,
             userEdit: user,

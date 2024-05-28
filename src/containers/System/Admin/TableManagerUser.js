@@ -27,11 +27,20 @@ this.props.fetchUserRedux();
     handleDeleteUser = (user) =>{
        this.props.deleteAUserRedux(user.id)
     }
+    handleEditUser = (user) => {
+        console.log('check user edit button: ',user);
+        this.props.handleEdituserFromParent(user)
+    }
+
+
     render() {
 console.log('an nhien check all users: ', this.props.listUsers);
 console.log('check state tablema: ', this.state.usersRedux);
 let arrayUsers = this.state.usersRedux;
+
+
         return (
+
                     <table id='TableManagerUser'>
                         <tr>
                             <th>Email</th>
@@ -49,7 +58,7 @@ let arrayUsers = this.state.usersRedux;
                                     <td>{item.address}</td>
                                     <td>
                                         {/* Thêm các nút hành động tại đây */}
-                                        <button className='btn-edit'>
+                                        <button className='btn-edit' onClick={() => this.handleEditUser(item)}>
                                             <i className='fas fa-pencil-alt'> < /i>
                                         </button>
                                         <button onClick={() => this.handleDeleteUser(item)}>

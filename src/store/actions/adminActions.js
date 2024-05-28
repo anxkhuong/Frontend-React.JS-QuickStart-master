@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import {getAllCodeService, createNewUserService, getAllUsers, deleteUserSerivce} from '../../services/userService';
+import {getAllCodeService, createNewUserService, getAllUsers, deleteUserSerivce, editUserService,getTopDoctorHomeService} from '../../services/userService';
 import {toast} from "react-toastify";
 // export const fetchGenderStart = () => ({
 //     type: actionTypes.FETCH_GENDER_START
@@ -13,7 +13,6 @@ export const fetchGenderStart = () => {
             })
     let res = await getAllCodeService("GENDER");
     if(res && res.errCode === 0){
-        console.log('an nhien check getstate: ',getState)
        dispatch(fetchGenderSuccess(res.data))
     }else{
         dispatch(fetchGenderFailed());
@@ -32,15 +31,13 @@ export const fetchPositionStart = () => {
          
     let res = await getAllCodeService("POSITION");
     if(res && res.errCode === 0){
-        console.log('an nhien check getstate: ',getState)
        dispatch(fetchPositionSuccess(res.data))
     }else{
         dispatch(fetchPositionFailed());
     }
    } catch (e) {
    dispatch(fetchPositionFailed());
-    console.log('fetchGenderStart: ',e)
-   }  
+   }
     }
  
 }
@@ -53,15 +50,13 @@ export const fetchRoleStart = () => {
             })
     let res = await getAllCodeService("ROLE");
     if(res && res.errCode === 0){
-        console.log('an nhien check getstate: ',getState)
        dispatch(fetchRoleSuccess(res.data))
     }else{
         dispatch(fetchRoleFailed());
     }
    } catch (e) {
    dispatch(fetchRoleFailed());
-    console.log('fetchGenderStart: ',e)
-   }  
+   }
     }
  
 }
@@ -71,10 +66,8 @@ export const createNewUser =  (data) =>{
     return async(dispatch,getState) => {
         try {
             let res = await createNewUserService(data) ;
-            console.log('admin check create user redux', res)
             if(res && res.errCode === 0){
                 toast.success("Create a New User Succed! ")
-                console.log('an nhien check getstate: ',getState)
                 dispatch(saveUserSuccess(res.data))
              dispatch(fetchAllUsersStart());
             }else{
@@ -83,7 +76,6 @@ export const createNewUser =  (data) =>{
         } catch (e) {
             toast.error('Create user failed!')
             dispatch(saveUserFailed());
-            console.log('saveUserFailed error: ',e)
         }
     }
 }
@@ -101,7 +93,6 @@ export const fetchAllUsersStart = () => {
         } catch (e) {
             toast.error('fetch all user failed!')
             dispatch(fetchAllUserFailed());
-            console.log('fetchAllUsersStart: ',e)
         }
     }
         }
@@ -110,10 +101,8 @@ export const deleteAUser =  (userId) =>{
     return async(dispatch,getState) => {
         try {
             let res = await deleteUserSerivce(userId) ;
-            console.log('admin check create user redux', res)
             if(res && res.errCode === 0){
                 toast.success("Delete User Succed! ",{ autoClose: 1650 })
-                console.log('an nhien check getstate: ',getState)
                 dispatch(saveUserSuccess(res.data))
                 dispatch(fetchAllUsersStart());
             }else{
@@ -123,10 +112,61 @@ export const deleteAUser =  (userId) =>{
         } catch (e) {
             toast.error('delete the user failed!')
             dispatch(saveUserFailed());
-            console.log('saveUserFailed error: ',e)
         }
     }
 }
+export const editAUser =  (data) =>{
+    return async(dispatch,getState) => {
+        try {
+            let res = await editUserService(data) ;
+            if(res && res.errCode === 0){
+                toast.success("Edit User Succed! ",{ autoClose: 1650 })
+                dispatch(editUserSuccess())
+                dispatch(fetchAllUsersStart());
+
+            }else{
+                toast.success("Edit User Success ! ",{ autoClose: 1650 })
+
+                // toast.error('edit the user failed!')
+                dispatch(editUserFailed());
+            }
+        } catch (e) {
+            toast.error('edit the user failed!')
+            dispatch(editUserFailed());
+        }
+    }
+}
+
+export const fetchTopDoctor = () =>{
+    return async(dispatch,getState) => {
+        try {
+    let res = await getTopDoctorHomeService('');
+    if(res && res.errCode === 0){
+        dispatch({
+            type:actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
+            dataDoctor:res.data
+        })
+    }else {
+        dispatch({
+            type:actionTypes.FETCH_TOP_DOCTOR_FAILED,
+
+        })
+    }
+        } catch (e) {
+console.log('FETCH_TOP_DOCTOR_FAILED: ',e)
+            dispatch({
+            type:actionTypes.FETCH_TOP_DOCTOR_FAILED
+            })
+        }
+    }
+}
+export  const editUserSuccess = (data) =>({
+    type: actionTypes.EDIT_USER_SUCCESS
+});
+
+export  const editUserFailed = (data) =>({
+    type: actionTypes.EDIT_USER_FAILED
+});
 
 export const deleteUserSuccess = () =>({
     type: actionTypes.DELETE_USER_SUCCESS
@@ -178,3 +218,7 @@ export const fetchRoleFailed = () => ({
     type: actionTypes.FETCH_ROLE_FAILED,
    
 })
+
+
+// let res1 = await getTopDoctorHomeService(3);
+// console.log('check res get top doctor: ',res1)

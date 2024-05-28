@@ -52,6 +52,11 @@
         "image": "Image",
         "position": "Position",
         "role": "Role",
-        "save": "Save"
+        "save": "Save",
+        "edit": "Edit User"
+    },
+    "homepage": {
+        "out-standing-doctor": "Last week's featured doctor",
+        "more-info": "more Info"
     }
 }
