@@ -4,7 +4,23 @@ import { connect } from 'react-redux';
 import './TableManagerUser.scss';
 import * as actions from "../../../store/actions";
 import {deleteAUser, fetchAllUserFailed} from "../../../store/actions";
+// import react, react-markdown-editor-lite, and a markdown parser you like
+// import * as ReactDOM from 'react-dom';
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+// import style manually
+import 'react-markdown-editor-lite/lib/index.css';
 
+// Register plugins if required
+// MdEditor.use(YOUR_PLUGINS_HERE);
+
+// Initialize a markdown parser
+const mdParser = new MarkdownIt(/* Markdown-it options */);
+
+// Finish!
+function handleEditorChange({ html, text }) {
+    console.log('handleEditorChange', html, text);
+}
 
 class TableManagerUser extends Component {
 
@@ -40,7 +56,7 @@ let arrayUsers = this.state.usersRedux;
 
 
         return (
-
+<React.Fragment>
                     <table id='TableManagerUser'>
                         <tr>
                             <th>Email</th>
@@ -73,7 +89,8 @@ let arrayUsers = this.state.usersRedux;
 
                         </tbody>
                     </table>
-
+        <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+    </React.Fragment>
         );
     }
 }
