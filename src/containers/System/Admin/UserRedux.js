@@ -136,6 +136,7 @@ this.props.createNewUser({
     positionId: this.state.position,
 avatar: this.state.avatar,
 })
+            this.props.fetchUserRedux();
         }
         if(action === CRUD_ACTIONS.EDIT){
 
@@ -420,7 +421,8 @@ const mapDispatchToProps = dispatch => {
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
         createNewUser: (data) => dispatch(createNewUser(data)),
         fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        editAUserRedux:(data) => dispatch(actions.editAUser(data))
+        editAUserRedux:(data) => dispatch(actions.editAUser(data)),
+
     };
 };
 

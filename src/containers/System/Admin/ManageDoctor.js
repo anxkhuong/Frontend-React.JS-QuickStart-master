@@ -14,11 +14,8 @@ import './TableManagerUser.scss';
 // Register plugins if required
 // MdEditor.use(YOUR_PLUGINS_HERE);
 import Select from 'react-select';
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
+import {LANGUAGES} from "../../../utils";
+
 // Initialize a markdown parser
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -32,14 +29,44 @@ class ManagerDoctor extends Component {
             contentMarkdown:'',
             contentHTML:'',
             selectedDoctor:'',
-description:'',
+            description:'',
+            listDoctors:[]
         }
     }
     componentDidMount() {
-
+this.props.fetchAllDoctors()
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
 
+    buildDataInputSelect = (inputData) => {
+        let result = [];
+        let {language} = this.props;
+        if(inputData && inputData.length > 0) {
+            // eslint-disable-next-line array-callback-return
+            inputData.map((item, index) => {
+                let object = {};
+                let labelVi = `${item.lastName} ${item.firstName}`;
+                let labelEn = `${item.firstName} ${item.lastName}`;
+                object.label = language === LANGUAGES.VI ? labelVi : labelEn;
+                object.value = item.id;
+                result.push(object)
+            })
+        }
+        return  result;
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+if(prevProps.allDoctors !== this.props.allDoctors) {
+    let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
+    this.setState({
+        listDoctors:dataSelect
+    })
+}
+if(prevProps.language !== this.props.language) {
+    let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
+    this.setState({
+        listDoctors:dataSelect
+    })
+}
     }
 
      handleEditorChange = ({ html, text }) => {
@@ -72,9 +99,9 @@ this.setState({selectedDoctor});
 
         <label>Chon bac si</label>
         <Select
-            value={this.state.selectedDoctor}
+            value={this.state.selectedOption}
             onChange={this.handleChange}
-            options={options}
+            options={this.state.listDoctors}
         />
     </div>
     <div className='content-right'>
@@ -104,14 +131,14 @@ this.setState({selectedDoctor});
 
 const mapStateToProps = state => {
     return {
-        listUsers: state.admin.users
+        language: state.app.language,
+        allDoctors: state.admin.allDoctors
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        deleteAUserRedux: (id) =>dispatch(actions.deleteAUser(id)),
+        fetchAllDoctors: (id) => dispatch(actions.fetchAllDoctors()),
     };
 };
 
