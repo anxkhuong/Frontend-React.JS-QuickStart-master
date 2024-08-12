@@ -32,7 +32,7 @@ export const adminMenu = [
             {
                 name: 'menu.admin.manage-clinc', link: '/system/manager-clinic'
             },
-         
+
         ]
     },
     { //quản lý chuyên khoa
@@ -53,4 +53,20 @@ export const adminMenu = [
          
         ]
     },
+    {
+        // quản l ké hoạch khám bệnh của bác sỹ
+                name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'
+            },
+
+
+];
+export const doctorMenu = [
+    {
+        name:'menu.admin.manage-user',
+        menus:[
+            { //quản lý kế hoạch khám bệnh của bác sĩ
+                        name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'
+                    },
+               ]
+    }
 ];

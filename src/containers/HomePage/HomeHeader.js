@@ -7,6 +7,7 @@ import headerbackground from '../../assets/header-background.jpg';
 import {LANGUAGES} from '../../utils';
 
 import { changeLanguageApp } from '../../store/actions';
+import {withRouter} from "react-router";
 
 class HomeHeader extends Component {
 
@@ -15,18 +16,22 @@ changeLanguage = (language) =>{
     //fire redux event: actions
 
 }
-
+    returnToHome = () =>{
+if(this.props.history){
+    this.props.history.push('/home')
+}
+    }
     render() {
          let language = this.props.language;
         return (
-           
+
 
             <React.Fragment>
                 <div className='home-header-container' >
                     <div className='home-header-content'>
                         <div className='left-content'>
                             <i className='fas fa-bars'></i>
-                            <img className='header-logo' src={logo}/>
+                            <img className='header-logo' src={logo} onClick={()=>{this.returnToHome()}}/>
                            
 
                         </div>
@@ -60,6 +65,7 @@ changeLanguage = (language) =>{
 
                     </div>
                 </div>
+                {this.props.isShowBanner ===true &&
                 <div className='home-header-banner'>
                 <img className='img' src={headerbackground}/>
                     <div className='content-up'>
@@ -100,7 +106,7 @@ changeLanguage = (language) =>{
                     </div>
                     </div>
                 </div>
-
+                }
             </React.Fragment>
         );
     }
@@ -121,4 +127,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeHeader));

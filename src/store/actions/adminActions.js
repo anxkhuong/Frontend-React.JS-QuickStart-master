@@ -6,7 +6,7 @@ import {
     deleteUserSerivce,
     editUserService,
     getTopDoctorHomeService,
-    getAllDoctors
+    getAllDoctors, saveDetailDoctorService, getDoctorDetailsService
 } from '../../services/userService';
 import {toast} from "react-toastify";
 // export const fetchGenderStart = () => ({
@@ -217,6 +217,56 @@ export const fetchAllUserSuccess = (data) => ({
 export const fetchAllUserFailed = () => ({
     type: actionTypes.FETCH_ALL_USERS_FAILED,
 });
+
+export const saveDetailDoctor = (data) =>{
+    return async(dispatch,getState) => {
+        try {
+            let res = await saveDetailDoctorService(data);
+            if(res && res.errCode === 0){
+                toast.success("Details saved successfully!");
+                dispatch({
+                    type:actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS,
+                })
+            }else {
+                toast.error("Details saved failed!");
+                console.log("err res ", res)
+                dispatch({
+                    type:actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+                })
+            }
+        } catch (e) {
+            toast.error("Details saved failed!");
+            console.log('SAVE_DETAIL_DOCTOR_FAILED: ',e)
+            dispatch({
+                type:actionTypes.SAVE_DETAIL_DOCTOR_FAILED
+            })
+        }
+    }
+}
+
+export const fetchDoctorDetails = (doctorId) => {
+    return async (dispatch) => {
+        try {
+            let res = await getDoctorDetailsService(doctorId); // Gọi API để lấy chi tiết bác sĩ
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.FETCH_DOCTOR_DETAILS_SUCCESS,
+                    data: res.data,
+                });
+            } else {
+                dispatch({
+                    type: actionTypes.FETCH_DOCTOR_DETAILS_FAILED,
+                });
+            }
+        } catch (e) {
+            dispatch({
+                type: actionTypes.FETCH_DOCTOR_DETAILS_FAILED,
+            });
+            console.log('FETCH_DOCTOR_DETAILS_FAILED: ', e);
+        }
+    };
+};
+
 
 export const saveUserSuccess = () => ({
     type: actionTypes.CREATE_USER_SUCCESS

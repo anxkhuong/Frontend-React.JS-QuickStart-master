@@ -86,6 +86,8 @@ class UserRedux extends Component {
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
 previewImgURL:'',
                 action:CRUD_ACTIONS.CREATE
+            }, () =>{
+                console.log('ahihi do ngok callback check state: ', this.state)
             })
         }
     }
@@ -342,6 +344,7 @@ return isValid;
                                         onChange={(event) => {
                                             this.onChangeInput(event, 'role');
                                         }}
+
                                 >
                                     {roles && roles.length > 0 && roles.map((item, index) => {
                                         return (

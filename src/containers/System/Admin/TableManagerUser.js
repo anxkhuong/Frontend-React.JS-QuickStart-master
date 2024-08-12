@@ -25,6 +25,9 @@ componentDidUpdate(prevProps, prevState, snapshot) {
     handleDeleteUser = (user) =>{
     this.props.deleteAUserRedux(user.id);
     }
+    handleEditUser = (user) =>{
+       this.props.handleEdituserFromParent(user);
+    }
     render() {
         console.log('check prop', this.props.listUsers);
         console.log('check state', this.state.userRedux);
@@ -49,7 +52,7 @@ componentDidUpdate(prevProps, prevState, snapshot) {
                             <td>{item.lastName}</td>
                             <td>{item.address}</td>
                             <td>
-                                <button className="btn-edit">
+                                <button onClick={() => this.handleEditUser(item)} className="btn-edit">
                                     <i className="fas fa-pencil-alt"></i>
                                 </button>
                                 <button onClick={()=> this.handleDeleteUser(item)} className="btn-delete">
