@@ -70,6 +70,12 @@ handleShowHidePassword=()=>{
         isShowPassword: !this.state.isShowPassword
     })
 }
+    handleKeyDown=(event) =>{
+    if(event.key === 'Enter' || event.keyCode === 13){
+        this.handleLogin();
+    }
+    }
+
     render() {
 
 
@@ -95,10 +101,11 @@ handleShowHidePassword=()=>{
      onChange={(event) =>{
         this.handleOnChangePassword(event)
      }}
+           onKeyDown={(event)=>this.handleKeyDown(event)}
      />
      <span  onClick = {() => {this.handleShowHidePassword()}}>
       
-        <i class={this.state.isShowPassword ? "far fa-eye" : 'far fa-eye-slash'}></i>
+        <i className={this.state.isShowPassword ? "far fa-eye" : 'far fa-eye-slash'}></i>
      
      </span>
      

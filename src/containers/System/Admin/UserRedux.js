@@ -31,7 +31,6 @@ class UserRedux extends Component {
             position: '',
             role: '',
             avatar: '',
-
             action: '',
             userEditId:'',
         };
@@ -113,56 +112,76 @@ previewImgURL:'',
         });
     }
 
+//     handleSaveUser = () => {
+//       let isValid =  this.checkValidateInput();
+//       if(isValid === false) return;
+//       let {action} = this.state;
+//       this.setState({
+//           ...this.state,
+//           isUserCreated:false
+//       })
+//         if(action === CRUD_ACTIONS.CREATE){
+//       //fire redux create user
+// this.props.createNewUser({
+//     email: this.state.email,
+//     password: this.state.password,
+//     firstName: this.state.firstName,
+//     lastName: this.state.lastName,
+//     address: this.state.address,
+//     phoneNumber: this.state.phoneNumber,
+//     gender: this.state.gender ,
+//     roleId: this.state.role,
+//     positionId: this.state.position,
+// avatar: this.state.avatar,
+// })
+//             this.props.fetchUserRedux();
+//         }
+//         if(action === CRUD_ACTIONS.EDIT){
+//             //FIRE REDUX EDIT USER
+// this.props.editAUserRedux({
+//     id: this.state.userEditId,
+//     email: this.state.email,
+//     password: this.state.password,
+//     firstName: this.state.firstName,
+//     lastName: this.state.lastName,
+//     address: this.state.address,
+//     phoneNumber: this.state.phoneNumber,
+//     gender: this.state.gender ,
+//     roleId: this.state.role,
+//     positionId: this.state.position,
+//     avatar: this.state.avatar,
+// })
+//         }
+//         setTimeout(() =>{
+//             this.props.fetchUserRedux()
+//     },1000 )
+//
+//     }
+
     handleSaveUser = () => {
-      let isValid =  this.checkValidateInput();
-      if(isValid === false) return;
+        let isValid =  this.checkValidateInput();
+        if(!isValid) return;
 
-      let {action} = this.state;
+        const { action, email, password, firstName, lastName, phoneNumber, address, gender, role, position, avatar, userEditId } = this.state;
 
+        const userData = {
+            email, password, firstName, lastName, phoneNumber, address,
+            gender, roleId: role, positionId: position, avatar
+        };
 
-      this.setState({
-          ...this.state,
-          isUserCreated:false
-      })
-        if(action === CRUD_ACTIONS.CREATE){
-      //fire redux create user
-this.props.createNewUser({
-    email: this.state.email,
-    password: this.state.password,
-    firstName: this.state.firstName,
-    lastName: this.state.lastName,
-    address: this.state.address,
-    phoneNumber: this.state.phoneNumber,
-    gender: this.state.gender ,
-    roleId: this.state.role,
-    positionId: this.state.position,
-avatar: this.state.avatar,
-})
+        if (action === CRUD_ACTIONS.CREATE) {
+            this.props.createNewUser(userData);
+        } else if (action === CRUD_ACTIONS.EDIT) {
+            this.props.editAUserRedux({ ...userData, id: userEditId });
+        }
+
+        setTimeout(() => {
             this.props.fetchUserRedux();
-        }
-        if(action === CRUD_ACTIONS.EDIT){
+        }, 1000);
+    };
 
-            //FIRE REDUX EDIT USER
-this.props.editAUserRedux({
-    id: this.state.userEditId,
-    email: this.state.email,
-    password: this.state.password,
-    firstName: this.state.firstName,
-    lastName: this.state.lastName,
-    address: this.state.address,
-    phonenumber: this.state.phoneNumber,
-    gender: this.state.gender ,
-    roleId: this.state.role,
-    positionId: this.state.position,
-    avatar: this.state.avatar,
-})
-        }
-        setTimeout(() =>{
-            this.props.fetchUserRedux()
-    },1000 )
 
-    }
-checkValidateInput = () =>{
+    checkValidateInput = () =>{
         let isValid = true;
         let arrCheck = ['email','password','firstName','lastName','phoneNumber','address']
     if (this.state.action !== CRUD_ACTIONS.EDIT) {
@@ -185,12 +204,31 @@ return isValid;
             ...copyState
         });
     }
-    handleEdituserFromParent = (user) =>{
-   let imageBase64 = '';
-       if(user.image){
-           imageBase64 = new Buffer(user.image,'base64').toString('binary');
-        }
+   //  handleEdituserFromParent = (user) =>{
+   // let imageBase64 = '';
+   //     if(user.image){
+   //         imageBase64 = new Buffer(user.image,'base64').toString('binary');
+   //      }
+   //
+   //      this.setState({
+   //          email: user.email,
+   //          password: user.password,
+   //          firstName: user.firstName,
+   //          lastName: user.lastName,
+   //          phoneNumber: user.phoneNumber,
+   //          address: user.address,
+   //          gender: user.gender,
+   //          position: user.position,
+   //          role: user.role,
+   //          avatar: user.avatar,
+   //          action: CRUD_ACTIONS.EDIT,
+   //          userEditId: user.id,
+   //          previewImgURL:imageBase64,
+   //      })
+   //  }
 
+    handleEdituserFromParent = (user) => {
+        let imageBase64 = user.avatar ? `data:image/jpeg;base64,${user.avatar}` : '';
         this.setState({
             email: user.email,
             password: user.password,
@@ -204,9 +242,10 @@ return isValid;
             avatar: user.avatar,
             action: CRUD_ACTIONS.EDIT,
             userEditId: user.id,
-            previewImgURL:imageBase64,
-        })
-    }
+            previewImgURL: imageBase64,
+        });
+    };
+
 
     render() {
         let genders = this.state.genderArr;
@@ -367,6 +406,7 @@ return isValid;
                                     <div className='preview-image'
                                          style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
                                          onClick={() => this.openPreviewImage()}
+                                         value={avatar}
                                     ></div>
                                 </div>
                             </div>
@@ -405,28 +445,48 @@ return isValid;
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        language: state.app.language,
-        genderRedux: state.admin.genders,
-        isLoadingGender: state.admin.isLoadingGender,
-        roleRedux: state.admin.roles,
-        positionRedux: state.admin.positions,
-        listUsers: state.admin.users,
-        createNewUser: (data) => dispatch(actions.createNewUser(data))
-    };
-};
+// const mapStateToProps = state => {
+//     return {
+//         language: state.app.language,
+//         genderRedux: state.admin.genders,
+//         isLoadingGender: state.admin.isLoadingGender,
+//         roleRedux: state.admin.roles,
+//         positionRedux: state.admin.positions,
+//         listUsers: state.admin.users,
+//         createNewUser: (data) => dispatch(actions.createNewUser(data))
+//     };
+// };
+//
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         getGenderStart: () => dispatch(actions.fetchGenderStart()),
+//         getPositionStart: () => dispatch(actions.fetchPositionStart()),
+//         getRoleStart: () => dispatch(actions.fetchRoleStart()),
+//         createNewUser: (data) => dispatch(createNewUser(data)),
+//         fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
+//         editAUserRedux:(data) => dispatch(actions.editAUser(data)),
+//
+//     };
+// };
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getGenderStart: () => dispatch(actions.fetchGenderStart()),
-        getPositionStart: () => dispatch(actions.fetchPositionStart()),
-        getRoleStart: () => dispatch(actions.fetchRoleStart()),
-        createNewUser: (data) => dispatch(createNewUser(data)),
-        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        editAUserRedux:(data) => dispatch(actions.editAUser(data)),
+const mapStateToProps = state => ({
+    language: state.app.language,
+    genderRedux: state.admin.genders,
+    isLoadingGender: state.admin.isLoadingGender,
+    roleRedux: state.admin.roles,
+    positionRedux: state.admin.positions,
+    listUsers: state.admin.users,
+});
 
-    };
-};
+const mapDispatchToProps = dispatch => ({
+    getGenderStart: () => dispatch(actions.fetchGenderStart()),
+    getPositionStart: () => dispatch(actions.fetchPositionStart()),
+    getRoleStart: () => dispatch(actions.fetchRoleStart()),
+    createNewUser: (data) => dispatch(actions.createNewUser(data)),
+    fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
+    editAUserRedux: (data) => dispatch(actions.editAUser(data)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);

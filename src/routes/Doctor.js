@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from "../containers/Header/Header";
 import UserManage from "../containers/System/UserManage";
 import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
+import {FormattedMessage} from "react-intl";
 
 class Doctor extends Component {
     render() {
@@ -15,8 +16,7 @@ class Doctor extends Component {
                 <div className="system-container">
                     <div className="system-list">
                         <Switch>
-                            <Route path="/doctor/manager-schedule" component={ManageSchedule} />
-
+                            <Route path="/doctor/manage-schedule" component={ManageSchedule} />
                         </Switch>
                     </div>
                 </div></React.Fragment>

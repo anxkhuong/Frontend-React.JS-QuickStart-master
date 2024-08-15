@@ -54,11 +54,13 @@ export const adminMenu = [
         ]
     },
     {
-        // quản l ké hoạch khám bệnh của bác sỹ
+        name:'menu.doctor.manage-schedule',
+        menus:[
+            { //quản lý kế hoạch khám bệnh của bác sĩ
                 name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'
             },
-
-
+        ]
+    }
 ];
 export const doctorMenu = [
     {
