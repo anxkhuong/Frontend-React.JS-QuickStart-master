@@ -7,13 +7,15 @@ import localization from 'moment/locale/vi';
 import {LANGUAGES} from "../../../utils";
 import {getScheduleDoctorByDate} from '../../../services/userService';
 import {FormattedMessage} from "react-intl";
-
+import BookingModal from './Modal/BookingModal';
 export class DoctorSchedule extends Component {
     constructor(props) {
         super(props);
         this.state ={
             allDays: [],
             allAvalableTime:[],
+            isOpenModalBooking: false,
+            dataScheduleTimeModal:{}
         }
     }
     async componentDidMount(){
@@ -90,10 +92,23 @@ allAvalableTime: res.data ? res.data : []
             console.error('Doctor ID is missing or invalid');
         }
     };
+    handleClickScheduleTime = (time) =>{
+        this.setState({
+            isOpenModalBooking:true,
+            dataScheduleTimeModal:time
+        })
+        console.log('check time: ',time)
+    }
+    closeBookingClose =() =>{
+        this.setState({
+            isOpenModalBooking:false
+        })
+    }
     render() {
-        let {allDays, allAvalableTime} = this.state;
+        let {allDays, allAvalableTime,isOpenModalBooking,dataScheduleTimeModal} = this.state;
         let {language} = this.props;
         return (
+            <>
               <div className='doctor-schedule-container'>
                   <div className='all-schedule'>
                       <select onChange={(event) => this.handleOnChangeSelect(event)}>
@@ -119,14 +134,20 @@ allAvalableTime: res.data ? res.data : []
                                       {  allAvalableTime.map((item, index) => {
                                           let timedisplay = language === LANGUAGES.VI ? item.timeTypeData.valueVi : item.timeTypeData.valueEn;
                                           return(
-                                              <button key={index} className={language === LANGUAGES.VI ? 'btn-vie' : 'btn-en'}>{timedisplay}</button>
+                                              <button key={index} className={language === LANGUAGES.VI ? 'btn-vie' : 'btn-en'}
+                                              onClick={()=> this.handleClickScheduleTime(item)}
+                                              >{timedisplay}</button>
                                           )
                                       })
                                       }
                                   </div>
 
                               <div className='book-free'>
-                                  <span><FormattedMessage id={'patient.detail-doctor.choose'}  /><i className='far fa-hand-point-up'></i> <FormattedMessage id={'patient.detail-doctor.book-free'} /> </span>
+                                  <span>
+                                      <FormattedMessage id={'patient.detail-doctor.choose'}  />
+                                      <i className='far fa-hand-point-up'>
+
+                                      </i> <FormattedMessage id={'patient.detail-doctor.book-free'} /> </span>
                               </div>
                               </React.Fragment>
                       :
@@ -135,6 +156,11 @@ allAvalableTime: res.data ? res.data : []
                       </div>
                   </div>
               </div>
+            <BookingModal isOpenModal={isOpenModalBooking}
+            closeBookingClose={this.closeBookingClose}
+                          dataTime={dataScheduleTimeModal}
+            />
+        </>
         );
     }
 }

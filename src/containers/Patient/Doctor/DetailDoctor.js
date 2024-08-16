@@ -5,6 +5,7 @@ import './DetailDoctor.scss';
 import {getDetailInforDoctor} from '../../../services/userService';
 import {LANGUAGES} from "../../../utils";
 import {DoctorSchedule} from "./DoctorSchedule";
+import DoctorExtraInfo from './DoctorextraInfo';
 class DetailDoctor extends Component {
 
     constructor(props) {
@@ -65,7 +66,11 @@ if(detailDoctor && detailDoctor.positionData){
                         <div className='content-left'>
                             <DoctorSchedule language={this.props.language} doctorIdFromParent={this.state.currentDoctorId}/>
                         </div>
-                        <div className='content-right'></div>
+                        <div className='content-right'>
+                            <DoctorExtraInfo
+                                doctorIdFromParent={this.state.currentDoctorId}
+                            />
+                        </div>
                     </div>
                     <div className='detail-infor-doctor'>
                         {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.contentHTML &&

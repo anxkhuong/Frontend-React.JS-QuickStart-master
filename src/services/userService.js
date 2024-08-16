@@ -1,4 +1,5 @@
 import axios from "../axios"
+import doctor from "../routes/Doctor";
 const handleLoginApi = (email, password) => {
     return axios.post('/api/login', { email, password });
 }
@@ -45,6 +46,12 @@ const getScheduleDoctorByDate = (doctorId,date) =>{
 const saveBulkScheduleDoctor = (data) =>{
     return axios.post('/api/bulk-create-schedule',data)
 }
+const getExtraInforDoctorById = (doctorId) =>{
+    return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`)
+}
+const getProfileDoctorById = (doctorId) =>{
+    return axios.get (`/api/get-profile-doctor-by-id?doctorId=${doctorId}`)
+}
 export {
     handleLoginApi,
     getAllUsers,
@@ -58,5 +65,7 @@ export {
     getDoctorDetailsService,
     getDetailInforDoctor,
     saveBulkScheduleDoctor,
-    getScheduleDoctorByDate
+    getScheduleDoctorByDate,
+    getExtraInforDoctorById,
+    getProfileDoctorById
 }
