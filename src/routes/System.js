@@ -6,6 +6,7 @@ import UserRedux from '../containers/System/Admin/UserRedux';
 // import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroupOrAcc';
 import Header from '../containers/Header/Header';
 import ManagerDoctor from "../containers/System/Admin/ManageDoctor";
+import ManagerSpecialty from "../containers/System/Specialty/ManagerSpecialty";
 class System extends Component {
     render() {
            
@@ -20,6 +21,7 @@ class System extends Component {
                         <Route path="/system/user-redux" component={UserRedux} />
                         <Route path="/system/manager-doctor" component={ManagerDoctor} />
                         {/* <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} /> */}
+                        <Route path='/system/manager-specialty' component={ManagerSpecialty} />
                         <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                     </Switch>
                 </div>

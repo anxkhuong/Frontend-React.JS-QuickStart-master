@@ -31,7 +31,6 @@ this.props.history.push(`/detail-doctor/${doctor.id}`)
     }
     render() {
         let arrDoctors = this.state.arrDoctors;
-        console.log('chec so luong bac si ',arrDoctors)
         // arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors)
         let {language} = this.props;
         return ( 

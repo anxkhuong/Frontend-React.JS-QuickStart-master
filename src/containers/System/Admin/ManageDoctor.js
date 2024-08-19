@@ -16,6 +16,7 @@ import './TableManagerUser.scss';
 import Select from 'react-select';
 import {CRUD_ACTIONS, LANGUAGES} from "../../../utils";
 import {getDetailInforDoctor} from "../../../services/userService";
+import specialty from "../../HomePage/Section/Specialty";
 // Initialize a markdown parser
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -38,12 +39,20 @@ class ManagerDoctor extends Component {
             listPrice:[],
             listPayment:[],
             listProvince:[],
+            listClinic:[],
+            listSpecialty: [],
+
             selectedPrice:'',
             selectedPayment:'',
             selectedProvince:'',
+            selectedClinic:'',
+            selectedSpecialty:'',
+
             nameClinic:'',
             addressClinic:'',
             note:'',
+            clinidId:'',
+            specialtyId:''
         }
     }
     componentDidMount() {
@@ -95,6 +104,13 @@ if(type === 'PRICE'){
                     object.value = item.keyMap;
                     result.push(object)
                 })
+            } if(type === 'SPECIALTY'){
+                inputData.map((item, index) => {
+                    let object = {};
+                    object.label = item.name
+                    object.value = item.id;
+                    result.push(object)
+                })
             }
         }
         return  result;
@@ -103,32 +119,36 @@ if(type === 'PRICE'){
     componentDidUpdate(prevProps, prevState, snapshot) {
 if(prevProps.allDoctors !== this.props.allDoctors) {
     let dataSelect = this.buildDataInputSelect(this.props.allDoctors, 'USERS')
-    let {resPayment, resPrice, resProvince} = this.props.allRequiredDoctorInfor;
+    let {resPayment, resPrice, resProvince,resSpecialty} = this.props.allRequiredDoctorInfor;
     let dataSelectPrice = this.buildDataInputSelect(resPrice,'PRICE');
     let dataSelectPayment = this.buildDataInputSelect(resPayment,'PAYMENT');
     let dataSelectProvince = this.buildDataInputSelect(resProvince,'PROVINCE');
-
+let dataSelectSpecialty = this.buildDataInputSelect(resSpecialty,'SPECIALTY')
     this.setState({
         listDoctors:dataSelect,
         listPrice:dataSelectPrice,
         listPayment:dataSelectPayment,
         listProvince:dataSelectProvince,
+        listSpecialty:dataSelectSpecialty
     })
 }
 
 
         if(prevProps.allRequiredDoctorInfor !== this.props.allRequiredDoctorInfor){
-            let {resPayment, resPrice, resProvince} = this.props.allRequiredDoctorInfor;
+            let {resPayment, resPrice, resProvince,resSpecialty} = this.props.allRequiredDoctorInfor;
         let dataSelectPrice = this.buildDataInputSelect(resPrice,'PRICE');
             let dataSelectPayment = this.buildDataInputSelect(resPayment,'PAYMENT');
             let dataSelectProvince = this.buildDataInputSelect(resProvince,'PROVINCE');
+            let dataSelectSpecialty = this.buildDataInputSelect(resSpecialty,'SPECIALTY')
 
           console.log('check data new: ', dataSelectPrice,dataSelectPayment,dataSelectProvince)
             this.setState({
                 listPrice:dataSelectPrice,
                 listPayment:dataSelectPayment,
                 listProvince:dataSelectProvince,
-                })
+                listSpecialty:dataSelectSpecialty
+
+            })
         }
         // if (prevState.selectedDoctor !== this.state.selectedDoctor) {
         //     if (this.state.selectedDoctor) {
@@ -182,22 +202,25 @@ if(prevProps.allDoctors !== this.props.allDoctors) {
             description: description,
             doctorId: doctorId,
             action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
-       selectedPrice: this.state.selectedPrice.value,
+
+         selectedPrice: this.state.selectedPrice.value,
             selectedPayment:this.state.selectedPayment.value,
             selectedProvince: this.state.selectedProvince.value,
             nameClinic: this.state.nameClinic,
             addressClinic: this.state.addressClinic,
-            note: this.state.note
+            note: this.state.note,
+            clinicId:this.state.selectedClinic && this.state.selectedClinic.value ? this.state.selectedClinic.value : '',
+            specialtyId:this.state.selectedSpecialty.value
         });
     }
     handleChangeSelect = async (selectedOption) => {
         this.setState({ selectedDoctor: selectedOption });  // Đảm bảo selectedDoctor được cập nhật
-        let {listPayment,listPrice,listProvince} = this.state;
+        let {listPayment,listPrice,listProvince,listSpecialty} = this.state;
         let res = await getDetailInforDoctor(selectedOption.value);
         if (res && res.errCode === 0 && res.data && res.data.Markdown) {
             let markdown = res.data.Markdown;
             let addressClinic = '', nameClinic = '',note='',paymentId='',priceId='',provinceId='',
-            selectedPayment ='',selectedPrice='',selectedProvince=''
+            selectedPayment ='',selectedPrice='',selectedProvince='',selectedSpecialty='',specialtyId = ''
             ;
 
             if(res.data.Doctor_Infor){
@@ -207,6 +230,7 @@ if(prevProps.allDoctors !== this.props.allDoctors) {
                 paymentId = res.data.Doctor_Infor.paymentId;
                 priceId = res.data.Doctor_Infor.priceId;
                 provinceId = res.data.Doctor_Infor.provinceId;
+                specialtyId= res.data.Doctor_Infor.specialtyId
 
                 selectedPayment = listPayment.find(item =>{
                     return item && item.value === paymentId
@@ -218,6 +242,9 @@ if(prevProps.allDoctors !== this.props.allDoctors) {
 
                 selectedProvince = listProvince.find(item =>{
                     return item && item.value === provinceId
+                })
+                selectedSpecialty = listSpecialty.find(item =>{
+return item && item.value === specialtyId
                 })
             }
 
@@ -231,7 +258,8 @@ if(prevProps.allDoctors !== this.props.allDoctors) {
                 note:note,
                 selectedPayment:selectedPayment,
                 selectedPrice:selectedPrice,
-                selectedProvince:selectedProvince
+                selectedProvince:selectedProvince,
+                selectedSpecialty: selectedSpecialty
             });
         } else {
             this.setState({
@@ -242,6 +270,10 @@ if(prevProps.allDoctors !== this.props.allDoctors) {
                 addressClinic:'',
                 nameClinic:'',
                 note:'',
+                selectedPrice:'',
+                selectedPayment:'',
+                selectedProvince:'',
+                selectedSpecialty:'',
             });
         }
         console.log('Doctor details response:', res);
@@ -343,8 +375,31 @@ console.log('check state: ', this.state)
                     </div>
                 </div>
 
+                <div className='row'>
+                    <div className='col-4 form-group'>
+                        <label><FormattedMessage id='admin.manager-doctor.specialty'/></label>
+                        <Select
+                            value={this.state.selectedSpecialty}
+                            onChange={this.handleChangeSelectDoctorInfor}
+                            options={this.state.listSpecialty}
+                            placeholder={<FormattedMessage id='admin.manager-doctor.specialty'/>}
+                            name='selectedSpecialty'
+                        />
+                    </div>
+                    <div className='col-4 form-group'>
+                        <label><FormattedMessage id='admin.manager-doctor.select-clinic'/></label>
+                        <Select
+                            value={this.state.selectedClinic}
+                            onChange={this.handleChangeSelectDoctorInfor}
+                            options={this.state.listClinic}
+                            placeholder={<FormattedMessage id='admin.manager-doctor.select-clinic'/>}
+                            name='selectedClinic'
+                        />
+                    </div>
+                </div>
+
                 <div className='manager-doctor-editor'>
-                <MdEditor style={{height: '500px'}} renderHTML={text =>
+                    <MdEditor style={{height: '300px'}} renderHTML={text =>
                         mdParser.render(text)}
                               onChange={this.handleEditorChange}
                               value={this.state.contentMarkdown}
@@ -354,8 +409,9 @@ console.log('check state: ', this.state)
                 <button
                     onClick={() => this.handleSaveContentMarkdown()}
                     className={hasOldData === true ? 'save-content-doctor' : 'create-content-doctor'}>
-                    {hasOldData === true ? <span><FormattedMessage id='admin.manager-doctor.save'/></span> : <span><FormattedMessage id='admin.manager-doctor.add'/></span>}
-            </button>
+                    {hasOldData === true ? <span><FormattedMessage id='admin.manager-doctor.save'/></span> :
+                        <span><FormattedMessage id='admin.manager-doctor.add'/></span>}
+                </button>
             </div>
         );
     }

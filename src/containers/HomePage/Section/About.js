@@ -29,11 +29,11 @@ class About extends Component {
             <div className='content-left'>
             <iframe width="100%" height="400px" 
             src="https://www.youtube.com/embed/xTOpjgX7u4A" 
-            title="The Chloé Winter 2024 Show by Creative Director Chemena Kamali" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen></iframe>
+            title="The Chloé Winter 2024 Show by Creative Director Chemena Kamali"
+                    frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+             referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen></iframe>
             </div>
             <div className='content-right'>
                 <p>
