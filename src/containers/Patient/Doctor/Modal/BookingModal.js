@@ -404,15 +404,16 @@ class BookingModal extends Component {
                 email,
                 address,
                 reason,
-                date,
+                date:this.props.dateTime.date,
                 gender: selectedGender.value, // Use .value for gender
                 doctorId,
                 timeType,
-                birthday,
+                birthday:date,
                 language: this.props.language,
                 timeString,
                 doctorName,
-            });
+
+            }); console.log('check date:', date);
 
             if (res && res.errCode === 0) {
                 toast.success('Booking a new appointment succeeded!');

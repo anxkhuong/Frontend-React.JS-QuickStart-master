@@ -1,21 +1,22 @@
 import React, { Component } from 'react'; // Removed unnecessary "component" import
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl'; // Corrected import path
-import './ManagerSpecialty.scss';
+import './ManageClinic.scss';
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import {CommonUtils} from "../../../utils";
-import {createNewSpecialty} from "../../../services/userService";
+import {createNewClinic} from "../../../services/userService";
 import {toast} from "react-toastify";
 
 
 const mdParser = new MarkdownIt();
-class ManagerSpecialty extends Component {
+class ManageClinic extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-name:'',
+            name:'',
+            address:'',
             imageBase64:'',
             descriptionHTML:'',
             descriptionMarkdown:'',
@@ -54,13 +55,14 @@ name:'',
             })
         }
     }
-    handleSaveNewSpecialty = async ()=>{
-        let res = await createNewSpecialty(this.state)
+    handleSaveNewClinic = async ()=>{
+        let res = await createNewClinic(this.state)
         if(res && res.errCode === 0){
-            toast.success('Add new specialty succeeds!')
+            toast.success('Add new clinic succeeds!')
             this.setState({
                 name:'',
                 imageBase64:'',
+                address:'',
                 descriptionHTML:'',
                 descriptionMarkdown:'',
             })
@@ -73,29 +75,35 @@ name:'',
     render() {
         return (
             <div className='manage-specialty-container'>
-                <div className='ms-title'> Quan ly chuyen khoa</div>
+                <div className='ms-title'> Quan ly Phong kham</div>
 
                 <div className='add-new-specialty row'>
                     <div className='col-6 form-group' >
-                        <label>Ten chuyen khoa</label>
+                        <label>Ten phong kham</label>
                         <input className='form-control' type='text' value={this.state.name}
-                        onChange={(event) => this.handleOnChangeInput(event,'name')}/>
+                               onChange={(event) => this.handleOnChangeInput(event,'name')}/>
 
                     </div>
                     <div className='col-6 form-group'>
-                        <label>Anh Chuyen khoa</label>
+                        <label>Anh phong kham</label>
                         <input className='form-control-file' type='file' onChange={(event) =>this.handleOnchangeImage(event)}/>
+                    </div>
+                    <div className='col-6 form-group'>
+                        <label>Dia chi phong kham</label>
+                        <input className='form-control' type='text' value={this.state.address}
+                               onChange={(event) => this.handleOnChangeInput(event, 'address')}/>
+
                     </div>
                     <div className='col-12'>
                         <MdEditor
-                            style={{height:'300px'}}
+                            style={{height: '300px'}}
                             renderHTML={text => mdParser.render(text)}
-                        onChange={this.handleEditorChange}
+                            onChange={this.handleEditorChange}
                             value={this.state.descriptionMarkdown}
                         />
                     </div>
                     <div className='col-12'>
-                        <button className='btn-save-specialty' onClick={() => this.handleSaveNewSpecialty()}>Save</button>
+                        <button className='btn-save-specialty' onClick={() => this.handleSaveNewClinic()}>Save</button>
                     </div>
                 </div>
             </div>
@@ -115,4 +123,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagerSpecialty);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageClinic);
