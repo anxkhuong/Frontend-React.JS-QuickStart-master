@@ -6,7 +6,7 @@ import HomeHeader from "../../HomePage/HomeHeader";
 import {DoctorSchedule} from "../Doctor/DoctorSchedule";
 import DoctorExtraInfo from "../Doctor/DoctorextraInfo";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
-import {getAllDetailSpecialtyById,getAllCodeService} from "../../../services/userService";
+import {getAllDetailSpecialtyById,getAllCodeService,getAllClinicDetailClinicById} from "../../../services/userService";
 import _ from "lodash";
 import {LANGUAGES} from "../../../utils";
 
@@ -25,7 +25,7 @@ class DetailClinic extends Component {
         if(this.props.match && this.props.match.params && this.props.match.params.id){
             let id = this.props.match.params.id;
 
-            let res = await getAllDetailSpecialtyById({
+            let res = await getAllClinicDetailClinicById({
                 id: id,
             });
             console.log('check res lay thong tin cac bac si: ',res)
@@ -60,7 +60,7 @@ class DetailClinic extends Component {
         let id = this.props.match.params.id;
         let location = event.target.value;
 
-            let res = await getAllDetailSpecialtyById({
+            let res = await getAllClinicDetailClinicById({
                 id: id,
                 location: location
             });
@@ -68,7 +68,7 @@ class DetailClinic extends Component {
                 let data = res.data;
                 let arrDoctorId = [];
                 if(data && !_.isEmpty(res.data)){
-                    let arr = data.doctorSpecialty;
+                    let arr = data.doctorClinic;
                     if(arr && arr.length > 0){
                         arr.map(item => {
                             arrDoctorId.push(item.doctorId);
@@ -76,7 +76,7 @@ class DetailClinic extends Component {
                     }
                 }
                 this.setState({
-                    dataDetailSpecialty: res.data,
+                    dataDetailClinic: res.data,
                     arrDoctorId: arrDoctorId,
                 });
             }
@@ -95,6 +95,7 @@ class DetailClinic extends Component {
                     <div className='description-specialty'>
                         {dataDetailClinic && !_.isEmpty(dataDetailClinic) &&
                             <>
+                                <div>{dataDetailClinic.name}</div>
                             <div dangerouslySetInnerHTML={{__html:dataDetailClinic.descriptionHTML}}></div>
                 </>
                         }

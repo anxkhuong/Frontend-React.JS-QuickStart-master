@@ -3,27 +3,37 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl'; // Corrected import path
 import './ManagePatient.scss';
 import DatePicker from "../../../components/Input/DatePicker";
-import {getAllPatientForDoctor} from "../../../services/userService";
+import {getAllPatientForDoctor,postSendRemedy} from "../../../services/userService";
 import moment from "moment";
 import {LANGUAGES} from "../../../utils";
+import RemedyModal from "./RemedyModal";
+import {toast} from 'react-toastify';
+import LoadingOverlay from 'react-loading-overlay';
 class ManagePatient extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             currentDate:moment (new Date()).startOf('day').valueOf(),
-            dataPatient:[]
+            dataPatient:[],
+            isOpenRemedyModal:false,
+            dataModal:{},
+            isShowLoading:false
         }; // Added semicolon
         return; // Removed return statement from constructor
     }
 
     async componentDidMount() {
-       let {user} = this.props;
-       let {currentDate} = this.state;
-       let formatedDate = new Date(currentDate).getTime();
-       this.getDataPatient(user,formatedDate)
+        this.getDataPatient()
+       // let {user} = this.props;
+       // let {currentDate} = this.state;
+       // let formatedDate = new Date(currentDate).getTime();
+       // this.getDataPatient(user,formatedDate)
     }
-    getDataPatient = async (user,formatedDate) => {
+    getDataPatient = async () => {
+        let {user} = this.props;
+        let {currentDate} = this.state;
+        let formatedDate = new Date(currentDate).getTime();
         let res = await getAllPatientForDoctor({
             doctorId: user.id,
             date: formatedDate
@@ -43,15 +53,58 @@ class ManagePatient extends Component {
     handleOnChangeDatePicker =(date) =>{
         this.setState({
             currentDate:date[0]
-        },()=>{
-            let {user} = this.props;
-            let {currentDate} = this.state;
-            let formatedDate = new Date(currentDate).getTime();
-            this.getDataPatient(user,formatedDate)
+        },async ()=>{
+           await this.getDataPatient()
         }) }
     handleBtnConfirm = (item) =>{
-console.log('check item: ',item);
-alert('click me')
+let data ={
+    doctorId : item.doctorId,
+    patientId: item.patientId,
+    email:item.patientData.email,
+    timeType:item.timeType,
+    patientName:item.patientData.firstName
+}
+this.setState({
+    isOpenRemedyModal:true,
+    dataModal:data
+})
+   }
+    closeRemedyModal = () =>{
+        this.setState({
+            isOpenRemedyModal:false,
+            dataModal:{}
+        })
+    }
+    sendRemedy= async(dataChild) =>{
+        let {dataModal} = this.state;
+        this.setState({
+            isShowLoading:true
+        })
+        let res= await postSendRemedy({
+            email:dataChild.email,
+            imgBase64:dataChild.imgBase64,
+            doctorId: dataModal.doctorId,
+            patientId:dataModal.patientId,
+            timeType:dataModal.timeType,
+            language:this.props.language,
+            patientName: dataModal.patientName
+        });
+        if(res && res.errCode === 0){
+            this.setState({
+                isShowLoading:false
+            })
+            toast.success('Send Remedy succeeds');
+            this.closeRemedyModal();
+            await this.getDataPatient();
+        }else {
+            this.setState({
+                isShowLoading:false
+            })
+            toast.error('Somethings wrongs...');
+            console.log('error send remedy: ',res)
+        }
+        console.log('check gui: ',dataModal);
+        console.log('check gui: ',res)
     }
     handleBtnRemedy = () =>{
 
@@ -59,8 +112,15 @@ alert('click me')
     render() {
         let {language} = this.props;
         console.log('check state manage patient: ', this.state);
-        let {dataPatient} = this.state;
+        let {dataPatient,isOpenRemedyModal,dataModal} = this.state;
         return (
+            <>
+                <LoadingOverlay
+                active={this.state.isShowLoading}
+                spinner
+                text='Loading....'
+                >
+
             <div className='manage-patient-container'>
                <div className='m-p-title'>
                    Quản lý bệnh nhân khm bệnh
@@ -71,7 +131,6 @@ alert('click me')
                         <DatePicker onChange={this.handleOnChangeDatePicker}
                                     className='form-control'
                                     value={this.state.currentDate}
-
                         />
                     </div>
                     <div className='col-12 table-manage-patient'>
@@ -100,14 +159,12 @@ alert('click me')
                                         <td>{gender}</td>
                                         <td>
                                             <button className='mp-btn-confirm' onClick={() =>this.handleBtnConfirm(item)}>Xacs Nhan</button>
-                                            <button className='mp-btn-remedy' onClick={() =>this.handleBtnRemedy()}>Guửi hóa đơn</button>
-
                                         </td>
                                     </tr>
                                 )
                             })
                                 :
-                                <tr>No DATA</tr>
+                                <tr colSpan='6' style={{textAlign:'center'}}>No DATA</tr>
                             }
                             </tbody>
 
@@ -116,7 +173,15 @@ alert('click me')
                     </div>
                 </div>
             </div>
-        );
+                <RemedyModal
+                    isOpenModal={isOpenRemedyModal}
+                    dataModal={dataModal}
+                    closeRemedyModal={this.closeRemedyModal}
+                    sendRemedy={this.sendRemedy}
+                />
+                </LoadingOverlay>
+    </>
+                );
     }
 }
 

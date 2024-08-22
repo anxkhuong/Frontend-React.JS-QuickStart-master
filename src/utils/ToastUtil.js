@@ -62,7 +62,7 @@ class ToastUtil {
         });
     }
 
-    static show(type, title, message, rawMessage = false, autoCloseDelay = 3000) {
+    static show(type, title, message, rawMessage = false, autoCloseDelay = 1500) {
         const content = <CustomToast titleId={title} messageId={rawMessage ? null : message} message={rawMessage ? message : null} time={new Date()} />;
         const options = {
             position: toast.POSITION.BOTTOM_RIGHT,

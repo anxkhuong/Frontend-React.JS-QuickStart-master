@@ -86,7 +86,7 @@ handleShowHidePassword=()=>{
 <div className='cold-12 text-login'>Login</div>
 <div className='cold-12 form-group login-input'>
     <label>Username</label>
-    <input type='text' className='form-control' placeholder='enter your username'
+    <input type='text' className='form-control' placeholder='admin@admin.com'
     value={this.state.username}
     onChange={(event) => this.handleOnChangeUserName(event)}
     />
@@ -97,7 +97,7 @@ handleShowHidePassword=()=>{
     <div className='custom-input-password'>
     <input type={this.state.isShowPassword ? 'text' : 'password'} 
     className='form-control'
-     placeholder='enter your password'
+     placeholder='123456'
      onChange={(event) =>{
         this.handleOnChangePassword(event)
      }}

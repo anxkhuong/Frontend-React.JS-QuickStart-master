@@ -33,7 +33,7 @@ this.props.history.push(`/detail-doctor/${doctor.id}`)
         let arrDoctors = this.state.arrDoctors;
         // arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors)
         let {language} = this.props;
-        return ( 
+        return (
             <div className='section-share section-outstanding-doctor'>
             <div className='section-container'>
             <div className='section-header'>
@@ -63,7 +63,7 @@ this.props.history.push(`/detail-doctor/${doctor.id}`)
                                  </div>
                                  <div className='position text-center'>
                                      <div>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
-                                     <div>Cơ xương khớp</div>
+
                                  </div>
                              </div>
 
@@ -71,6 +71,7 @@ this.props.history.push(`/detail-doctor/${doctor.id}`)
                      )
                  })}
              </Slider>
+
             </div>
 
 

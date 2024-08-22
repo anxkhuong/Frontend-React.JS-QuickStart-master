@@ -46,7 +46,7 @@ class Specialty extends Component {
  
         };
         return (
-            <div className='section-share section-specialty'>
+            <div className='section-share section-specialty' id='specialty'>
             <div className='section-container'>
             <div className='section-header'>
             <span className='title-section'><FormattedMessage id='homepage.specialty-popular'/></span>

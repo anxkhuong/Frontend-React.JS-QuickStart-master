@@ -6,7 +6,8 @@ import Medicalfacility from './Section/Medicalfacility';
 import OutStandingDoctor from './Section/OutStandingDoctor';
 import HandBook from './Section/HandBook';
 import About from './Section/About';
-import HomeFooter from './Section/HomeFooter'
+import HomeFooter from './Section/HomeFooter';
+
 import './HomePage.scss'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -21,21 +22,38 @@ class HomePage extends Component {
             slidesToShow:4,
             slidesToScroll:1,
         };
+
         return (
             <div>
-            
-           <HomeHeader isShowBanner={true}/>
-            
-           <Specialty  settings={settings} /> 
-          <Medicalfacility  settings={settings}/>
-            <OutStandingDoctor settings={settings}/>
-            <HandBook settings={settings}/>
-            <About settings={settings}/>
-            <HomeFooter settings={settings}/>
-            
-             </div>
-            
-           
+
+                <HomeHeader isShowBanner={true}/>
+
+                <div id="specialty">
+                    <Specialty settings={settings}/>
+                </div>
+
+                <div id="medicalfacility">
+                    <Medicalfacility settings={settings}/>
+                </div>
+
+                <div id="outstandingdoctor">
+                    <OutStandingDoctor settings={settings}/>
+                </div>
+
+                <div id="lab">
+                    <HandBook settings={settings}/>
+                </div>
+
+                <div id="doctor">
+                    <About settings={settings}/>
+                </div>
+
+                <div id="medical">
+                    <HomeFooter settings={settings}/>
+                </div>
+
+            </div>
+
 
         );
     }
