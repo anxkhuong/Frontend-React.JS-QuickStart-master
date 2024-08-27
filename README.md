@@ -29,40 +29,102 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<div id='top' align="center">
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+An Frontend Booking Site, implemented with [React.js](https://react.dev/) and [Redux](redux.js.org). This is one of my project personal, but I would be pleased if these codes helped others, so I published it as an open-source project. feel free to explore it, and if you need help, ask me. I would respond as soon as possible.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<p>
+  To support me, please create
+  <strong>Pull request</strong>
+  and give <strong>star⭐</strong>
+  to this repository.
+  <br/>
+  I appreciate your support in advance. ❤
+</p>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<p>
 
-## Learn More
+![GitHub top language](https://img.shields.io/github/languages/top/AliBagheri2079/dennis-snellenberg-portfolio)&nbsp;
+![GitHub last commit](https://img.shields.io/github/last-commit/AliBagheri2079/dennis-snellenberg-portfolio)&nbsp;
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/AliBagheri2079/dennis-snellenberg-portfolio)&nbsp;
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/AliBagheri2079/dennis-snellenberg-portfolio?display_name=tag)&nbsp;
+![GitHub Repo stars](https://img.shields.io/github/stars/AliBagheri2079/dennis-snellenberg-portfolio?color=yellow)&nbsp;
+![GitHub forks](https://img.shields.io/github/forks/AliBagheri2079/dennis-snellenberg-portfolio)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+</p>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<p>
 
-### Code Splitting
+[Technologies](#-technologies) •
+[Demo](#-demo) •
+[Features](#-features) •
+[Pages](#-pages) •
+[Contributing](#-contributing) •
+[Links](#-links)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+</p>
 
-### Analyzing the Bundle Size
+<img
+  src="./public/screen-capture.gif"
+  loading="lazy"
+  alt="home page screenshot"
+/>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+</div>
 
-### Making a Progressive Web App
+## 🔧 Technologies
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+![ReactJS](https://react.dev/images/home/conf2021/cover.svg)&nbsp;
+![Redux](https://redux.js.org/img/redux.svg)&nbsp;
+![bootstrap](https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo-shadow.png)&nbsp;
 
-### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## ✨ Demo
 
-### Deployment
+You can visit and explore Site in the [Booking & Hopspital Choloé](https://chloé.vn/) template.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## 🔥 Features
 
-### `npm run build` fails to minify
+- Using ReactJS
+- Using Boostrap
+- Using Redux
+- Using Markdown
+- Using React-dom
+- Using toastify
+- Using markdown-it
+- Using Axios
+- Using lodash
+- Ssing node-sass
+- Restfull API
+- ......
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## 📃 API
+
+- Get
+- POST
+- PUT
+  
+
+<p align="right">(<a href="#top">BACK TO TOP 🔝</a>)</p>
+
+## 🤝 Contributing
+It would be nice if you give me money for coffee and steak.
+Crypto :
+TXj283Pn4j6eSyqKuii5B4zY16wzDHMMJg
+TRC20
+## 🔗 Links
+
+<p>
+  <a href="https://github.com/anxkhuongg">
+    <img src="https://img.shields.io/badge/Github-000?style=flat&logo=github&logoColor=white"/>
+  </a>
+  <a href="https://t.me/conbachtuot">
+    <img src="https://img.shields.io/badge/linkedin-0A66C2?style=flat&logo=linkedin&logoColor=white"/>
+  </a>
+  <a href="https://twitter.com/AliBagheri2079">
+    <img src="https://img.shields.io/badge/telegram-1DA1F2?style=flat&logo=twitter&logoColor=white"/>
+  </a>
+</p>
+
+<p align="right">(<a href="#top">BACK TO TOP🔝</a>)</p>
+
