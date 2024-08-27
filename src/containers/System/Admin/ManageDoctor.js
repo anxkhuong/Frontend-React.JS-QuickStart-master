@@ -52,7 +52,7 @@ class ManagerDoctor extends Component {
             nameClinic:'',
             addressClinic:'',
             note:'',
-            clinidId:'',
+            clinicId:'',
             specialtyId:''
         }
     }
@@ -133,7 +133,7 @@ if(prevProps.allDoctors !== this.props.allDoctors) {
     let dataSelectPayment = this.buildDataInputSelect(resPayment,'PAYMENT');
     let dataSelectProvince = this.buildDataInputSelect(resProvince,'PROVINCE');
 let dataSelectSpecialty = this.buildDataInputSelect(resSpecialty,'SPECIALTY');
-let dataSelectClinic = this.buildDataInputSelect(resSpecialty,'CLINIC');
+let dataSelectClinic = this.buildDataInputSelect(resClinic,'CLINIC');
 
     this.setState({
         listDoctors:dataSelect,
@@ -153,7 +153,7 @@ let dataSelectClinic = this.buildDataInputSelect(resSpecialty,'CLINIC');
             let dataSelectProvince = this.buildDataInputSelect(resProvince,'PROVINCE');
             let dataSelectSpecialty = this.buildDataInputSelect(resSpecialty,'SPECIALTY')
             let dataSelectClinic = this.buildDataInputSelect(resClinic,'CLINIC');
-          console.log('check data new: ', dataSelectPrice,dataSelectPayment,dataSelectProvince)
+          console.log('check data new: ', dataSelectPrice,dataSelectPayment,dataSelectProvince,dataSelectClinic)
             this.setState({
                 listPrice:dataSelectPrice,
                 listPayment:dataSelectPayment,
@@ -231,7 +231,7 @@ let dataSelectClinic = this.buildDataInputSelect(resSpecialty,'CLINIC');
     }
     handleChangeSelect = async (selectedOption) => {
         this.setState({ selectedDoctor: selectedOption });  // Đảm bảo selectedDoctor được cập nhật
-        let {listPayment,listPrice,listProvince,listSpecialty,listCLinic} = this.state;
+        let {listPayment,listPrice,listProvince,listSpecialty,listClinic} = this.state;
         let res = await getDetailInforDoctor(selectedOption.value);
         if (res && res.errCode === 0 && res.data && res.data.Markdown) {
             let markdown = res.data.Markdown;
@@ -261,9 +261,9 @@ let dataSelectClinic = this.buildDataInputSelect(resSpecialty,'CLINIC');
                     return item && item.value === provinceId
                 })
                 selectedSpecialty = listSpecialty.find(item =>{
-return item && item.value === specialtyId
+                    return item && item.value === specialtyId
                 })
-                selectedClinic = listCLinic.find(item =>{
+                selectedClinic = listClinic.find(item =>{
                     return item && item.value === clinicId
                 })
             }
